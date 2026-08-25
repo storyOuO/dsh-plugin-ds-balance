@@ -12,6 +12,9 @@ import { tmpdir } from 'node:os'
 
 const home = mkdtempSync(join(tmpdir(), 'ds-balance-test-'))
 process.env.DSH_HOME = home
+// Deterministic timezone: the daily rollover follows the LOCAL clock, so pin
+// local == UTC for the whole run (must be set before any Date use).
+process.env.TZ = 'UTC'
 delete process.env.DEEPSEEK_API_KEY
 
 // Credentials-file resolution: a fake key must reach fetch (blocked here).
@@ -106,6 +109,12 @@ const keyOk = state.balanceError === 'net-blocked'
 console.log('phase1 pricing+ledger+key:', { costOk, ledgerOk, byModelOk, keyOk, todayCost: state.todayCost })
 
 // --- Phase 2: daily-history archiving on rollover ---
+// Expected "today" is the host machine's LOCAL calendar date (same rule as
+// the plugin's rollDay), computed dynamically so the test is immune to both
+// the run date and the machine timezone.
+const _d = new Date()
+const localDay = _d.getFullYear() + '-' + String(_d.getMonth() + 1).padStart(2, '0') + '-' + String(_d.getDate()).padStart(2, '0')
+
 // Rewind the persisted day to yesterday; the next activation must archive it.
 const yesterdayState = readState()
 yesterdayState.day = '2026-08-24'
@@ -115,7 +124,7 @@ mod.apply(ctx, cfg) // reload: rollDay archives '2026-08-24'
 await new Promise((resolve) => setImmediate(resolve))
 state = readState()
 const historyOk =
-  state.day === '2026-08-25' &&
+  state.day === localDay &&
   state.history['2026-08-24'] === Math.round(expectedTotal * 10000) / 10000 &&
   state.usage.length === 0 &&
   state.todayCost === 0
@@ -127,7 +136,7 @@ mod.apply(ctx, cfg) // loadState must fall back to the backup
 await new Promise((resolve) => setImmediate(resolve))
 state = readState()
 const bakOk =
-  state.day === '2026-08-25' &&
+  state.day === localDay &&
   typeof state.history === 'object' &&
   Array.isArray(state.usage) &&
   existsSync(`${statePath}.bak`)

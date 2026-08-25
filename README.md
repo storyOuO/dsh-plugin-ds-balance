@@ -21,7 +21,8 @@ mechanism — no private dsh APIs:
 ## Features
 
 - Per-call cost ledger from real `usage` chunks (durable, JSON under the dsh home).
-- Daily rollover with archived per-day history.
+- Daily rollover at the host machine's **local** midnight, with archived
+  per-day history.
 - DeepSeek official balance polling (every 60 s) with `.bak` recovery so a torn
   write can never wipe the ledger.
 - **Peak pricing**: off-peak buckets billed ×2 during Beijing peak windows

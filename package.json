@@ -1,6 +1,6 @@
 {
   "name": "ds-balance",
-  "version": "0.2.2",
+  "version": "0.2.4",
   "description": "DeepSeek API balance + per-call cost tracker — a dsh plugin (cordis host half + sidebar client half)",
   "license": "MIT",
   "author": "storyOuO",
