@@ -30,16 +30,18 @@ mechanism — no private dsh APIs:
 
 ## Install
 
-The plugin must be resolvable by the bare name `ds-balance` from your profile.
-Either add it to the profile's `package.json` dependencies and install, or
-publish and `npm i ds-balance`:
+The package declares `dsh.bundle`, so it installs through the official plugin
+path (recommended):
 
 ```bash
 npm install ds-balance
+dsh plugin --profile web add ds-balance
 ```
 
-Then wire it in your profile's `cordis.patch.yml` (see
-[`cordis.patch.yml.example`](./cordis.patch.yml.example)):
+It can also be wired by name in the profile's `cordis.patch.yml` (see
+[`cordis.patch.yml.example`](./cordis.patch.yml.example)) — the bundle install
+and the patch wiring are equivalent, and both keep the package resolvable by
+the bare name `ds-balance`:
 
 ```yaml
 - insert:

@@ -1,0 +1,12 @@
+# ds-balance bundle patch.
+#
+# Declared by `dsh.bundle.patch` in package.json: listing this package in a
+# profile's `dsh.profile.bundles` — or installing it with
+# `dsh plugin --profile web add ds-balance` — inserts the plugin row into the
+# profile composition. Per-model pricing overrides belong in a later patch
+# layer (see cordis.patch.yml.example); the row below keeps the built-in
+# defaults.
+- insert:
+    - id: ds-balance
+      name: 'ds-balance'
+      config: {}
