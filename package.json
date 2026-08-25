@@ -15,6 +15,9 @@
     "lib/index.js",
     "lib/client.js"
   ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
   "scripts": {
     "test": "node test/ds-balance.test.mjs"
   },
