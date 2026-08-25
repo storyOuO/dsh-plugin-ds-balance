@@ -1,0 +1,22 @@
+# Example wiring for the ds-balance plugin, to be pasted into your profile's
+# cordis.patch.yml (e.g. $DSH_HOME/profiles/web/cordis.patch.yml) or the
+# home-level $DSH_HOME/cordis.patch.yml.
+#
+# The plugin must be resolvable by the bare name `ds-balance` — add it as a
+# dependency in the profile's package.json, or place/symlink the package where
+# the profile resolver can find it.
+#
+# Pricing is in CNY per 1M tokens, per model. `cacheWrite` defaults to `input`
+# (the cache-miss price) when omitted. Peak hours bill at ×2 automatically
+# (Beijing time, Mon–Fri 09:00–12:00 and 14:00–18:00); adjust the numbers to the
+# official pricing page whenever DeepSeek changes rates.
+- insert:
+    - id: ds-balance
+      name: 'ds-balance'
+      config:
+        pricing:
+          deepseek-v4-pro:
+            input: 2.0
+            cacheRead: 0.5
+            cacheWrite: 2.0
+            output: 8.0

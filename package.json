@@ -1,0 +1,35 @@
+{
+  "name": "ds-balance",
+  "version": "0.2.0",
+  "description": "DeepSeek API balance + per-call cost tracker — a dsh plugin (cordis host half + sidebar client half)",
+  "license": "MIT",
+  "author": "storyOuO <1216938059@qq.com>",
+  "type": "module",
+  "main": "./lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/client.js"
+  ],
+  "scripts": {
+    "test": "node test/ds-balance.test.mjs"
+  },
+  "keywords": [
+    "dsh",
+    "deepseek",
+    "balance",
+    "cost",
+    "pricing",
+    "cordis",
+    "plugin"
+  ],
+  "dsh": {
+    "client": {
+      "platform": "web"
+    }
+  }
+}
