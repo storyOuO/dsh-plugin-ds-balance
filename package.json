@@ -21,7 +21,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
-    "test": "node test/ds-balance.test.mjs && node test/bundle-patch.test.mjs"
+    "test": "node test/ds-balance.test.mjs && node test/bundle-patch.test.mjs && node test/peak-windows.test.mjs"
   },
   "keywords": [
     "dsh",
