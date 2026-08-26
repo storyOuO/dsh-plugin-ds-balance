@@ -60,6 +60,21 @@ the bare name `ds-balance`:
 `config.pricing.<model>` overrides the default off-peak CNY-per-1M-token
 buckets. `cacheWrite` defaults to `input` when omitted.
 
+## Data & troubleshooting
+
+The durable ledger lives at `$DSH_HOME/storages/ds-balance.json` (default
+`~/.dsh/storages/ds-balance.json`). Each successful DeepSeek call appends one
+ledger entry; the whole file is replaced atomically and the previous good
+snapshot is rotated to `ds-balance.json.bak`, so a torn write can never wipe
+the history — the plugin falls back to the backup automatically.
+
+| Symptom | Cause / fix |
+| --- | --- |
+| Sidebar shows `--` for balance | No `DEEPSEEK_API_KEY` in the environment or in `$DSH_HOME/.credentials.yaml` (`refs.DEEPSEEK_API_KEY`); the host records `balanceError: "no DEEPSEEK_API_KEY"`. |
+| Balance never refreshes | The balance poll hits `api.deepseek.com` directly; check your network / proxy. `balanceError` carries the last failure and the snapshot is marked `stale`. |
+| Today's spend looks wrong | Peak windows bill ×2 (Mon–Fri 09:00–12:00 / 14:00–18:00 Beijing time); check the call time and your per-model `config.pricing` overrides. |
+| Want a fresh start | Stop dsh, delete `ds-balance.json` (and its `.bak`), restart. History since the last midnight is lost; today's counters reset. |
+
 ## Test
 
 The verification script exercises the host half (pricing, ledger, credentials
